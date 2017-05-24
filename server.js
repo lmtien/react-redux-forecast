@@ -8,9 +8,9 @@ const app = express();
 // same url but with HTTPS
 const forceSSL = function() {
   return function (req, res, next) {
-    if (req.headers['x-forwarded-proto'] !== 'https') {
+    if (req.headers['x-forwarded-proto'] == 'https') {
       return res.redirect(
-       ['https://', req.get('Host'), req.url].join('')
+       ['http://', req.get('Host'), req.url].join('')
       );
     }
     next();
@@ -20,7 +20,7 @@ const forceSSL = function() {
 // Instruct the app
 // to use the forceSSL
 // middleware
-// app.use(forceSSL());
+app.use(forceSSL());
 
 // For all GET requests, send back index.html
 // so that PathLocationStrategy can be used
